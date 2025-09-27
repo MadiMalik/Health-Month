@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { formatYYYYMMDD } from '../lib/date';
+import * as api from '../lib/api';
 
 // The key used to store our data in the browser's localStorage.
 const STORAGE_KEY = 'health_month_entries_v1';
@@ -67,11 +68,35 @@ export function useEntries() {
   // initialize state by reading data from localStorage. The function is passed
   // directly to useState for lazy initialization, so it only runs once.
   const [entries, setEntries] = useState(() => readAll());
+  const [serverMode] = useState(Boolean(import.meta.env.VITE_API_URL));
+  const [loading, setLoading] = useState(false);
 
-  // persist entries on change
+  // persist entries on change (local cache)
   useEffect(() => {
     writeAll(entries);
   }, [entries]);
+
+  // On mount: if server mode, hydrate from API
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      if (!serverMode) return;
+      setLoading(true);
+      try {
+        const list = await api.getEntries();
+        if (mounted && Array.isArray(list)) {
+          setEntries(list.sort(sortByDateDesc));
+        }
+      } catch {
+        // ignore; fall back to local cache
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [serverMode]);
 
     /**
      * addEntry(), adds a new entry to the list.
@@ -80,10 +105,9 @@ export function useEntries() {
      * @param {object} data The data for the new entry, from the form.
      */
 
-  const addEntry = (data) => {
+  const addEntry = async (data) => {
     const now = new Date().toISOString();
-    const id = crypto.randomUUID();
-
+    const id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2);
     const entry = {
       id,
       date: data.date || formatYYYYMMDD(new Date()),
@@ -100,8 +124,18 @@ export function useEntries() {
       createdAt: now,
       updatedAt: now,
     };
-
+    // Optimistic update
     setEntries((prev) => [entry, ...prev].sort(sortByDateDesc));
+    if (serverMode) {
+      try {
+        const saved = await api.createEntry(entry);
+        if (saved && saved.id) {
+          setEntries((prev) => [saved, ...prev.filter((p) => p.id !== id)].sort(sortByDateDesc));
+        }
+      } catch {
+        // leave optimistic entry in cache
+      }
+    }
   };
 
 
@@ -112,16 +146,17 @@ export function useEntries() {
      * @param {string} id The ID of the entry to update.
      * @param {object} patch The partial data to update the entry with.
      */
-  const updateEntry = (id, patch) => {
-    setEntries((prev) =>
-      prev
-        .map((entry) =>
-          entry.id === id
-            ? { ...entry, ...normalizePatch(patch), updatedAt: new Date().toISOString() }
-            : entry
-        )
-        .sort(sortByDateDesc)
-    );
+  const updateEntry = async (id, patch) => {
+    const updatedAt = new Date().toISOString();
+    const norm = normalizePatch(patch);
+    setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, ...norm, updatedAt } : e)).sort(sortByDateDesc));
+    if (serverMode) {
+      try {
+        await api.updateEntry(id, norm);
+      } catch {
+        // ignore network errors for now
+      }
+    }
   };
 
     /**
@@ -129,8 +164,15 @@ export function useEntries() {
      * deleteEntry() filters the list to remove the entry with the matching ID.
      * @param {string} id The ID of the entry to delete.
      */
-  const deleteEntry = (id) => {
+  const deleteEntry = async (id) => {
     setEntries((prev) => prev.filter((entry) => entry.id !== id));
+    if (serverMode) {
+      try {
+        await api.deleteEntry(id);
+      } catch {
+        // ignore
+      }
+    }
   };
 
     /**
@@ -153,6 +195,7 @@ export function useEntries() {
   return {
     entries,
     last30,
+    loading,
     addEntry,
     updateEntry,
     deleteEntry,

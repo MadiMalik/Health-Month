@@ -8,13 +8,16 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "server": "node server/index.js"
   },
   "dependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.2",
-    "recharts": "^2.15.4"
+    "recharts": "^2.15.4",
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
