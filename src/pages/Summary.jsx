@@ -48,7 +48,7 @@ export default function Summary() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-base font-semibold">Summary</h2>
-          <p className="text-sm text-gray-600">Range: {summary.range}</p>
+          <p className="text-sm text-gray-600">Dates: {summary.range}</p>
         </div>
         <div className="select-none print:hidden w-full sm:w-auto grid grid-cols-1 sm:grid-cols-2 gap-2">
           <button className="btn-ghost w-full sm:w-auto" onClick={onCopy}>{copied ? "Copied!" : "Copy summary"}</button>
@@ -59,18 +59,18 @@ export default function Summary() {
       <div ref={printRef} className="card p-4 print:border-0 print:p-0">
         <section className="space-y-2">
           <p className="text-sm">
-            Entries: <strong>{summary.counts.daysLogged}</strong>
+            Days logged: <strong>{summary.counts.daysLogged}</strong>
           </p>
           {summary.stats.painMedian != null && (
             <p className="text-sm text-gray-700">
-              Median pain: <strong>{summary.stats.painMedian}</strong> (avg {summary.stats.painAvg ?? "—"}, max {summary.stats.painMax ?? "—"})
+              Typical pain: <strong>{summary.stats.painMedian}</strong> (average {summary.stats.painAvg ?? "—"}, highest {summary.stats.painMax ?? "—"})
             </p>
           )}
         </section>
 
         {summary.flags.length > 0 && (
           <section className="mt-4">
-            <h3 className="font-medium mb-2">Key Patterns</h3>
+            <h3 className="font-medium mb-2">What stood out</h3>
             <ul className="list-disc pl-5 space-y-1 text-sm text-gray-800">
               {summary.flags.map((f, i) => <li key={i}>{f}</li>)}
             </ul>
@@ -78,7 +78,7 @@ export default function Summary() {
         )}
 
         <section className="mt-4">
-          <h3 className="font-medium mb-2">Doctor Prompts</h3>
+          <h3 className="font-medium mb-2">Questions to ask your doctor</h3>
           <ol className="list-decimal pl-5 space-y-1 text-sm text-gray-800">
             {summary.prompts.map((p, i) => <li key={i}>{p}</li>)}
           </ol>
