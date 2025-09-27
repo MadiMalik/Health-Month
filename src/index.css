@@ -1,0 +1,69 @@
+/* Tailwind CSS Directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles */
+@layer components {
+  .input {
+    @apply w-full rounded-xl border border-gray-300 px-3 py-2 text-sm
+           focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+           border border-transparent bg-indigo-600 text-white hover:bg-indigo-700
+           focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+           border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
+           focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700;
+  }
+
+  h1{
+    @apply text-3xl font-bold tracking-tight text-indigo-800;
+  }
+
+  /* Logo styling for the site title */
+  .logo {
+    @apply text-2xl sm:text-3xl font-bold tracking-tight;
+    font-family: 'Playfair Display', ui-serif, Georgia, 'Times New Roman', serif;
+    color: #264414;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Print-friendly styles */
+@media print {
+  /* Hide header/footer/nav chrome */
+  header, nav, footer {
+    display: none !important;
+  }
+
+  /* Expand main content */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Body text sizing for readability on A4/Letter */
+  body {
+    color: #111827; 
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Remove rounded borders/shadows for a clean page */
+  .print\:border-0 {
+    border: 0 !important;
+  }
+  .print\:p-0 {
+    padding: 0 !important;
+  }
+}
