@@ -2,7 +2,7 @@ export default function EntryList({ entries, onEdit, onDelete }) {
 if (!entries?.length) return null;
 
 return (
-    <ul className="divide-y divide-gray-200 border border-gray-200 rounded-2xl overflow-hidden">
+    <ul className="card divide-y divide-gray-200 overflow-hidden">
     {entries.map((e) => (
         <li key={e.id} className="p-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">

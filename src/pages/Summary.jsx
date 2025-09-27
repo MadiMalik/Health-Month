@@ -45,18 +45,18 @@ export default function Summary() {
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-base font-semibold">Summary</h2>
           <p className="text-sm text-gray-600">Range: {summary.range}</p>
         </div>
-        <div className="flex items-center gap-2 select-none print:hidden">
-          <button className="btn-ghost" onClick={onCopy}>{copied ? "Copied!" : "Copy summary"}</button>
-          <button className="btn" onClick={onPrint}>Print / Save PDF</button>
+        <div className="select-none print:hidden w-full sm:w-auto grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button className="btn-ghost w-full sm:w-auto" onClick={onCopy}>{copied ? "Copied!" : "Copy summary"}</button>
+          <button className="btn w-full sm:w-auto" onClick={onPrint}>Print / Save PDF</button>
         </div>
       </div>
 
-      <div ref={printRef} className="rounded-2xl border border-gray-200 p-4 print:border-0 print:p-0">
+      <div ref={printRef} className="card p-4 print:border-0 print:p-0">
         <section className="space-y-2">
           <p className="text-sm">
             Entries: <strong>{summary.counts.daysLogged}</strong>

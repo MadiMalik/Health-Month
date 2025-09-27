@@ -43,7 +43,7 @@ export default function Modal({open, title = "Dialog", onClose, children}){
         className="rounded-2xl backdrop:bg-black/40  p-0"
         onClick={onBackDrop}
         >
-            <div className="relative z-10 max-w-lg w-[92vw] sm:w-[480px] p-4 sm:p-6">
+            <div className="relative z-10 max-w-lg w-[92vw] sm:w-[480px] p-4 sm:p-6 bg-white rounded-2xl shadow-xl">
                 <div className="mb-4 flex items-center justify-between">
                     <h2 id="modal-title" className="text-base font-semibold">
                         {title}

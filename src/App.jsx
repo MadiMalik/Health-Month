@@ -5,7 +5,7 @@ import Summary from "./pages/Summary.jsx";
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-200">
+      <header className="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-200 shadow-sm">
         <div className="mx-auto max-w-2xl px-4 py-3 flex items-center justify-between">
           <h1 className="logo">Health Month</h1>
           <nav className="flex items-center gap-2">
@@ -30,14 +30,15 @@ export default function App() {
     </div>
   );
 }
-
 function Tab({ to, children }) {
   return (
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `rounded-xl px-3 py-1.5 text-sm ${
-          isActive ? "bg-indigo-600 text-white" : "text-gray-700 hover:bg-gray-100"
+        `rounded-xl px-3 py-1.5 text-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+          isActive
+            ? "bg-indigo-600 text-white shadow-sm"
+            : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
         }`
       }
     >

@@ -13,14 +13,14 @@
     @apply block text-sm font-medium text-gray-700 mb-1;
   }
   .btn {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium
            border border-transparent bg-indigo-600 text-white hover:bg-indigo-700
-           focus:outline-none focus:ring-2 focus:ring-indigo-500;
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium
+    @apply inline-flex items-center justify-center rounded-xl px-4 py-2.5 text-sm font-medium
            border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
-           focus:outline-none focus:ring-2 focus:ring-indigo-500;
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200;
   }
   .chip {
     @apply inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700;
@@ -36,6 +36,11 @@
     font-family: 'Playfair Display', ui-serif, Georgia, 'Times New Roman', serif;
     color: #264414;
     letter-spacing: -0.01em;
+  }
+
+  /* Card container utility */
+  .card {
+    @apply rounded-2xl border border-gray-200 bg-white shadow-sm;
   }
 }
 
