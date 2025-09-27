@@ -62,6 +62,8 @@
     color: #111827; 
     font-size: 12pt;
     line-height: 1.5;
+    -webkit-print-color-adjust: exact; /* Improve color fidelity in WebKit */
+    print-color-adjust: exact;         /* Modern browsers */
   }
 
   /* Remove rounded borders/shadows for a clean page */
@@ -70,5 +72,31 @@
   }
   .print\:p-0 {
     padding: 0 !important;
+  }
+
+  /* Keep charts readable and prevent awkward page breaks */
+  #charts-section,
+  #charts-section + div,
+  .recharts-responsive-container,
+  .recharts-wrapper,
+  .recharts-surface {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Set a consistent print height for charts */
+  .recharts-responsive-container {
+    height: 240px !important;
+  }
+
+  /* 2x2 chart grid layout on print */
+  .charts-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 12pt;
+  }
+  .charts-grid .chart-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

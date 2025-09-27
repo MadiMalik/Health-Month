@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useEntries } from "../hooks/useEntries";
 import { buildSummary } from "../lib/insights";
+import Charts from "../components/Charts.jsx";
 
 export default function Summary() {
   const { last30 } = useEntries();
@@ -28,7 +29,7 @@ export default function Summary() {
   };
 
   const onPrint = () => {
-    // Ensure the printable content is visible; the CSS will take care of print styles.
+    // the CSS will take care of print styles.
     window.print();
   };
 
@@ -84,13 +85,16 @@ export default function Summary() {
           </ol>
         </section>
 
+        {/* Charts: also included in print/PDF */}
+        <section className="mt-6" aria-labelledby="charts-section">
+          <h3 id="charts-section" className="font-medium mb-2">Charts</h3>
+          <Charts entries={last30} />
+        </section>
+
         <section className="mt-4 text-xs text-gray-500">
           Educational demo only — not medical advice. Data stored locally in your browser.
         </section>
 
-        {/* Hidden textarea for debugging / copy if needed
-        <textarea className="hidden">{summary.textSummary}</textarea>
-        */}
       </div>
     </div>
   );

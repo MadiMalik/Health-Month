@@ -16,7 +16,7 @@ export function buildSummary(entries) {
     };
   }
 
-  // Sort ascending by date for windowed calculations
+  // Sort ascending by date for calculations
   const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
   const range = formatRange(sorted[0].date, sorted[sorted.length - 1].date);
 
